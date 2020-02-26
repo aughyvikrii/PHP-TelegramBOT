@@ -70,6 +70,10 @@
         $message    = $this->data('message');
         $type       = @$message['entities'][0]['type'];
 
+        if( !$message && isset($this->data['callback_query']) ) {
+            $type = 'bot_button';
+        }
+
         if( $type == 'bot_command' ) return 'command';
         else if( $type == 'bot_button' ) return 'button';
         else if( isset($message['text']) ) return 'text';
@@ -79,8 +83,8 @@
         else if( isset($message['voice']) ) return 'voice';
         else if( isset($message['sticker']) ) return 'sticker';
         else {
-            if( DEBUG ) $this->response("Route belum di set");
-            die("~ERROR: unknown chat type");
+            if( DEBUG ) $this->response("~reply type not recognized");
+            die("~ERROR");
         }
         
     }
@@ -96,11 +100,11 @@
         $route_set  = '';
         $dataType   = $this->dataType();
         $routeList  = $this->route[$dataType];
-        $text       = @$this->data("message")["text"];
 
         if( in_array($dataType,["text","photo","animation","document","voice","sticker"]) ) {
             $route_set = @$routeList;
         } else if ( $dataType == 'command' ) {
+            $text       = @$this->data("message")["text"];
 
             // pisahkan antara /command dengan text lainnya
             $text = explode(" ",$text);
@@ -111,14 +115,42 @@
             $route_set = @$routeList[ strtolower($text) ];
             
         } else if( $dataType == 'button' ) {
-            die("Route button belum di set");
+            $text       = @$this->data("callback_query")["data"];
+            $route_set  = @$routeList[$text];
+
+            if( empty($route_set) && preg_match("/./",$text)==true ) {
+                $split = explode(".", $text);
+                $query = $split[0];
+
+                $search = preg_grep("/{$query}./", array_keys($routeList));
+                
+                $found = false;
+                foreach($search as $key) {
+
+                    $x = explode(".",$key);
+                    if( count($x) == count($split) ){
+                        foreach($x as $i => $v){
+                            if( $v == $split[$i] || $v == '*' ) {
+                                if( $i == ( count($x)-1 ) ) {
+                                    $found = $key; break 2;
+                                } else {
+                                    continue;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            $route_set = @$routeList[$found];
         } else {
-            die("ERROR~");
+            if( DEBUG ) $this->response("~reply type not recognized");
+            die("~ERROR");
         }
 
         if( !$route_set ) {
-            if( DEBUG ) $this->response("Route belum di set");
-            die("ERROR~");
+            if( DEBUG ) $this->response("~Route not set");
+            die("~ERROR");
         }
 
         $this->exec_route = $route_set;
@@ -163,7 +195,8 @@
         $path = BASE_PATH."/views/{$file}.php";
 
         if( !file_exists($path) ){
-            die("File {$file} doesn't exists.");
+            if( DEBUG ) $this->response("~File {$file} doesn't exists.");
+            die("~File {$file} doesn't exists.");
         }
 
         if( empty($this->assign) ) $this->assign = array();
@@ -174,17 +207,38 @@
         return ob_get_clean();
     }
 
-    public function response($text,$chat_id=false,$keyboard=array()) {
+    public function response($text,$keyboard=array(),$chat_id=false) {
         
         if( !$chat_id ) $chat_id = @$this->data['message']['chat']['id'];
 
+        if( !$chat_id ) $chat_id = @$this->data['callback_query']['message']['chat']['id'];
+
         if ( !$chat_id ) {
-            die("Chat ID not define~");
+            // if( DEBUG ) $this->response("~Chat ID not define");
+            die("~Chat ID not define");
         } else if( !empty($keyboard) ) {
             withKeyboard($chat_id,$text,$keyboard);
         } else {
             sendResponse($chat_id,$text);
         }
 
+    }
+
+    public function segment($index=null){
+        $type = $this->dataType();
+
+        if( $type == 'text' ){
+            $split = explode(" ",$this->data['message']['text']);
+            unset($split[0]);
+        } else if ( $type == 'button' ) {
+            $split = explode(".",$this->data['callback_query']['data']);
+            unset($split[0]);    
+        } else {
+            return array();
+        }
+
+        $split = array_values($split);
+        
+        return ($index) === null ? $split : @$split[$index];
     }
  }

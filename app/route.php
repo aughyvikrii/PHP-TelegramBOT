@@ -2,7 +2,7 @@
 
 $route = [
 
-    // 
+    //  
     "text"      => "HandlerClass@text",
     "photo"     => "HandlerClass@photo",
     "animation" => "HandlerClass@animation",
@@ -12,9 +12,13 @@ $route = [
 
     // Jika data yang di post berasal dari command
     "command"   => [
-        "start" => "Command@start"
+        "start"     => "Command@start",
+        "button"  => "Command@generate_button"
     ],
 
     // Jika data yang di post berasal dari button
-    "button"    => []
+    "button"    => [
+        "tombol.*"          => "Button@index",
+        "button.b.*"        => "Button@button_b"
+    ]
 ];

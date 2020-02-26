@@ -6,7 +6,7 @@
  * Version      : V.1.0
  * Dev By       : aughyvikrii < aughyvikrii@gmail.com >
  * status       : BETA
- * last update  : 2020-02-25 11:18 PM
+ * last update  : 2020-02-26 09:22 PM
  */
 
 header("Content-Type: application/json");
@@ -16,9 +16,9 @@ define("BOT_START",microtime(true));
 
 define("BASE_PATH",__DIR__);
 
-define("DEBUG",true);
+define("DEBUG",false);
 
-define("BOT_TOKEN","1060045780:AAEn4T1v3VFtIPqGx4NjvY1VkxON9ThNOig");
+define("BOT_TOKEN","");
 
 define('API_URL', 'https://api.telegram.org/bot'.BOT_TOKEN.'/');
 
