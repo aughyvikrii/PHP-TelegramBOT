@@ -3,7 +3,12 @@
 $route = [
 
     // 
-    "text"  => "Text@index",
+    "text"      => "HandlerClass@text",
+    "photo"     => "HandlerClass@photo",
+    "animation" => "HandlerClass@animation",
+    "document"  => "HandlerClass@document",
+    "voice"     => "HandlerClass@voice",
+    "sticker"   => "HandlerClass@sticker",
 
     // Jika data yang di post berasal dari command
     "command"   => [

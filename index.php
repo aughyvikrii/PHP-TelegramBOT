@@ -18,7 +18,7 @@ define("BASE_PATH",__DIR__);
 
 define("DEBUG",true);
 
-define("BOT_TOKEN","");
+define("BOT_TOKEN","1060045780:AAEn4T1v3VFtIPqGx4NjvY1VkxON9ThNOig");
 
 define('API_URL', 'https://api.telegram.org/bot'.BOT_TOKEN.'/');
 

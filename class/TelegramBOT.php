@@ -68,25 +68,21 @@
     public function dataType(){
 
         $message    = $this->data('message');
-        $type       = @$message['entities'][0]['type']; 
-        
-        switch($type) {
+        $type       = @$message['entities'][0]['type'];
 
-            case "":
-                return "text";
-                break;
-
-            case "bot_command":
-                return "command";
-                break;
-
-            case "bot_button":
-                return "button";
-                break;
-
-            default:
-                return 'text'; // return error
+        if( $type == 'bot_command' ) return 'command';
+        else if( $type == 'bot_button' ) return 'button';
+        else if( isset($message['text']) ) return 'text';
+        else if( isset($message['photo']) ) return 'photo';
+        else if( isset($message['document']) && isset($message['animation']) ) return 'animation';
+        else if( isset($message['document']) ) return 'document';
+        else if( isset($message['voice']) ) return 'voice';
+        else if( isset($message['sticker']) ) return 'sticker';
+        else {
+            if( DEBUG ) $this->response("Route belum di set");
+            die("~ERROR: unknown chat type");
         }
+        
     }
 
     private function get_data() {
@@ -100,16 +96,20 @@
         $route_set  = '';
         $dataType   = $this->dataType();
         $routeList  = $this->route[$dataType];
-        $text       = $this->data("message")["text"];
+        $text       = @$this->data("message")["text"];
 
-        if( $dataType == 'text' ) {
+        if( in_array($dataType,["text","photo","animation","document","voice","sticker"]) ) {
             $route_set = @$routeList;
         } else if ( $dataType == 'command' ) {
 
-            $text = explode(" ",$text); // pisahkan antara /command dengan text lainnya
-            $text = ltrim($text[0], "/"); // remove / from text
+            // pisahkan antara /command dengan text lainnya
+            $text = explode(" ",$text);
+
+            // remove / from text
+            $text = ltrim($text[0], "/");
 
             $route_set = @$routeList[ strtolower($text) ];
+            
         } else if( $dataType == 'button' ) {
             die("Route button belum di set");
         } else {
