@@ -6,6 +6,12 @@
 
  class HandlerClass extends TelegramBOT {
 
+    public function text() {
+        $text = "Handler text isn't set yet";
+
+        $this->response($text);
+    }
+
     public function document() {
 
         $text = "Handler document isn't set yet";

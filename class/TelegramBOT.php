@@ -44,6 +44,23 @@
 
         ## Ambil data yang di post
         $this->get_data();
+
+        ## Database Connection
+        $this->database_connection();
+    }
+
+    public function database_connection(){
+        $database = @$this->config['database'];
+
+        if( empty($database['db']) ) return;
+
+        $db = "db_{$database['type']}";
+
+        if( !file_exists(BASE_PATH."/lib/db/{$db}.php") ) die("~Error: database file {$db} doesn't exists");
+
+        require_once BASE_PATH."/lib/db/{$db}.php";
+
+        $this->db = new $db($database);
     }
 
     public function run() {

@@ -5,5 +5,13 @@
  */
 
 $config = [
-    "debug"     => true
+
+    // Database config
+    "database"  => [
+        "type"  => "mysql",
+        "host"  => "localhost",
+        "user"  => "root",
+        "pass"  => "",
+        "db"    => "smm_server_v3"
+    ],
 ];
