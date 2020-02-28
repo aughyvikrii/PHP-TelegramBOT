@@ -16,28 +16,11 @@ define("BOT_START",microtime(true));
 
 define("BASE_PATH",__DIR__);
 
-define("DEBUG",false);
+## Autoload system
+require_once BASE_PATH."/system/autoload.php";
 
-define("BOT_TOKEN","");
+## Defines the Routing class
+$routing = new Routing;
 
-define('API_URL', 'https://api.telegram.org/bot'.BOT_TOKEN.'/');
-
-## Load Route config
-require_once BASE_PATH."/app/route.php";
-
-## Load Main config
-require_once BASE_PATH."/app/config.php";
-
-## Load function
-require_once BASE_PATH."/lib/function.php";
-
-## Load TelegramBOT class
-require_once BASE_PATH."/class/TelegramBOT.php";
-
-if( !DEBUG ) error_reporting(0);
-
-## use Class TelegramBOT
-$bot = new TelegramBOT;
-
-## Run TelegramBOT
-$bot->run();
+## run the function
+$routing->run();

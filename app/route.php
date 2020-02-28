@@ -1,24 +1,38 @@
 <?php if( !defined("BOT_START") ) die("Direct access is not allowed.");
 
 $route = [
+    // Route By Feature Telegram
+    "photo"     => "Controller@photo",
+    "animation" => "Controller@animation",
+    "document"  => "Controller@document",
+    "voice"     => "Controller@voice",
+    "sticker"   => "Controller@sticker",
 
-    //  
-    "text"      => "HandlerClass@text",
-    "photo"     => "HandlerClass@photo",
-    "animation" => "HandlerClass@animation",
-    "document"  => "HandlerClass@document",
-    "voice"     => "HandlerClass@voice",
-    "sticker"   => "HandlerClass@sticker",
-
-    // Jika data yang di post berasal dari command
-    "command"   => [
-        "start"     => "Command@start",
-        "button"  => "Command@generate_button"
+    /**
+     * Text Route
+     * Delimiter use ' ' (space)
+     * ex: "price *"    => "Controller@price"
+     * so when text is "price book", it will use "Controller@price"
+     */
+    "text"      => [
+        "*" => "Controller@text",
     ],
 
-    // Jika data yang di post berasal dari button
+    // Route Command
+    "command"   => [
+        "start"     => "Controller@command_start",
+        "button"    => "Controller@command_button",
+        "*"         => "Controller@not_set"
+    ],
+
+    /**
+     * Button Route
+     * Delimiter use '.' (space)
+     * ex: "deposit.*"    => "Controller@deposit"
+     * so when text is "deposit.fund", it will use "Controller@deposit"
+     */
     "button"    => [
-        "tombol.*"          => "Button@index",
-        "button.b.*"        => "Button@button_b"
+        "lorem"          => "Controller@button_lorem",
+        "lorem.*"        => "Controller@button_handler_lorem"
     ]
 ];

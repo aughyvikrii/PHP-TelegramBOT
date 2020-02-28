@@ -6,6 +6,11 @@
 
 $config = [
 
+    // Bot Identify
+    "bot_name"  => "",
+    "bot_link"  => "",
+    "bot_token" => "",
+
     // Database config
     "database"  => [
         "type"  => "mysql",
@@ -14,4 +19,7 @@ $config = [
         "pass"  => "",
         "db"    => "smm_server_v3"
     ],
+
+    // Debug BOT
+    "debug" => true,
 ];

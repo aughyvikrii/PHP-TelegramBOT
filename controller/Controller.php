@@ -1,10 +1,11 @@
-<?php if( !defined("BOT_START") ) die("Direct access is not allowed.");
+<?php if( !defined("BOT_START") ) die("Direct access is not allowed."); // This is important
 
 /**
- * Command class
+ * Example Controller
  */
 
- class HandlerClass extends TelegramBOT {
+class Controller extends Main_Controller {
+
 
     public function text() {
         $text = "Handler text isn't set yet";
@@ -42,4 +43,5 @@
 
         $this->response($text);
     }
- }
+    
+}
