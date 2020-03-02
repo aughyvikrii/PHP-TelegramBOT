@@ -43,5 +43,28 @@ class Controller extends Main_Controller {
 
         $this->response($text);
     }
-    
+
+
+    public function command_start() {
+        $view = $this->view("start");
+
+        $this->response($view);
+    }
+
+    public function command_button() {
+        $keyboard = array(
+            "inline_keyboard" => array(
+                array(
+                    array(
+                        "text" => "Button B Type 1",
+                        "callback_data" => "button.b.1"
+                    ),
+                    array(
+                        "text" => "Button B Type 2",
+                        "callback_data" => "button.b.2"
+                    )
+                )
+            )
+        );
+    }
 }

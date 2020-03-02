@@ -9,7 +9,7 @@ $config = [
     // Bot Identify
     "bot_name"  => "",
     "bot_link"  => "",
-    "bot_token" => "",
+    "bot_token" => "1060045780:AAFCKqqvDGFDBXGM1c8uhp4cZmFfjNPzA8w",
 
     // Database config
     "database"  => [
