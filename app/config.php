@@ -9,7 +9,7 @@ $config = [
     // Bot Identify
     "bot_name"  => "",
     "bot_link"  => "",
-    "bot_token" => "1060045780:AAFCKqqvDGFDBXGM1c8uhp4cZmFfjNPzA8w",
+    "bot_token" => "",
 
     // Database config
     "database"  => [
@@ -17,7 +17,7 @@ $config = [
         "host"  => "localhost",
         "user"  => "root",
         "pass"  => "",
-        "db"    => "smm_server_v3"
+        "db"    => ""
     ],
 
     // Debug BOT
